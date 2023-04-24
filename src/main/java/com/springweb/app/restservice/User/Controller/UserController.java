@@ -2,6 +2,7 @@ package com.springweb.app.restservice.User.Controller;
 
 
 import com.springweb.app.restservice.User.Entity.User;
+import com.springweb.app.restservice.User.Exceptions.UserNotFoundException;
 import com.springweb.app.restservice.User.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +31,12 @@ public class UserController {
 
     @GetMapping("users/{id}")
     public User getById(@PathVariable UUID id) {
-        return userService.getOne(id);
+        User user =  userService.getOne(id);
+        if (user == null) {
+            throw new UserNotFoundException("id: "+ id);
+        }
+
+        return user;
     };
 
     @PostMapping("users")

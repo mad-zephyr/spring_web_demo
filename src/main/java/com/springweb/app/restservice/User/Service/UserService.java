@@ -24,7 +24,11 @@ public class UserService {
 
     public User getOne(UUID id){
         Predicate<? super User> predicate = user -> user.getId().equals(id);
-        return this.userDao.getUsers().stream().filter(predicate).findFirst().orElse(null);
+        return this.userDao.getUsers()
+                .stream()
+                .filter(predicate)
+                .findFirst()
+                .orElse(null);
     }
 
     public User save(User user) {
