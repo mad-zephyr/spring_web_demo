@@ -31,16 +31,16 @@ public class UserController {
 
     @GetMapping("users/{id}")
     public User getById(@PathVariable UUID id) {
-        User user =  userService.getOne(id);
+        User user = userService.getOne(id);
         if (user == null) {
-            throw new UserNotFoundException("id: "+ id);
+            throw new UserNotFoundException("id: " + id);
         }
 
         return user;
-    };
+    }
 
     @PostMapping("users")
-    public ResponseEntity<User> setUser(@RequestBody User user){
+    public ResponseEntity<User> setUser(@RequestBody User user) {
         User createdUser = this.userService.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -49,5 +49,14 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("users/{id}")
+    public UUID deleteById(@PathVariable String id) {
+        UUID deleteUserId = this.userService.delete(UUID.fromString(id));
+        if (deleteUserId == null) {
+            throw new UserNotFoundException("id: " + id);
+        }
+        return deleteUserId;
     }
 }

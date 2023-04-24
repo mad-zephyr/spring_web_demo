@@ -22,7 +22,7 @@ public class UserService {
         return this.userDao.getUsers();
     }
 
-    public User getOne(UUID id){
+    public User getOne(UUID id) {
         Predicate<? super User> predicate = user -> user.getId().equals(id);
         return this.userDao.getUsers()
                 .stream()
@@ -33,5 +33,9 @@ public class UserService {
 
     public User save(User user) {
         return this.userDao.setUsers(user);
+    }
+
+    public UUID delete(UUID id) {
+        return this.userDao.deleteUser(id);
     }
 }
