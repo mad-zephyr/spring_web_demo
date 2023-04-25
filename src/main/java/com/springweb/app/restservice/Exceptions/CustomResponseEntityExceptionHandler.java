@@ -1,6 +1,5 @@
 package com.springweb.app.restservice.Exceptions;
 
-import com.springweb.app.restservice.User.Exceptions.ErrorDetails;
 import com.springweb.app.restservice.User.Exceptions.UserNotFoundException;
 import com.springweb.app.restservice.VersioningPerson.Exceptions.NotImplemented;
 import org.springframework.http.HttpHeaders;

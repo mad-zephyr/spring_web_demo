@@ -6,6 +6,8 @@ import com.springweb.app.restservice.User.Exceptions.UserNotFoundException;
 import com.springweb.app.restservice.User.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -14,6 +16,9 @@ import java.net.URI;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class UserController {
@@ -31,13 +36,17 @@ public class UserController {
     }
 
     @GetMapping("users/{id}")
-    public User getById(@PathVariable UUID id) {
+    public EntityModel<User> getById(@PathVariable UUID id) {
         User user = userService.getOne(id);
         if (user == null) {
             throw new UserNotFoundException("id: " + id);
         }
 
-        return user;
+        EntityModel<User> entityModelUser =  EntityModel.of(user);
+        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).getAllUsers());
+        entityModelUser.add(link.withRel("all_users"));
+
+        return entityModelUser;
     }
 
     @PostMapping("users")

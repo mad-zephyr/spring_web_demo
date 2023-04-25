@@ -1,4 +1,4 @@
-package com.springweb.app.restservice.User.Exceptions;
+package com.springweb.app.restservice.Exceptions;
 
 import lombok.Data;
 
