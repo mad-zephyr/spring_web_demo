@@ -4,6 +4,7 @@ package com.springweb.app.restservice.User.Controller;
 import com.springweb.app.restservice.User.Entity.User;
 import com.springweb.app.restservice.User.Exceptions.UserNotFoundException;
 import com.springweb.app.restservice.User.Service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("users")
-    public ResponseEntity<User> setUser(@RequestBody User user) {
+    public ResponseEntity<User> setUser(@Valid @RequestBody User user) {
         User createdUser = this.userService.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
